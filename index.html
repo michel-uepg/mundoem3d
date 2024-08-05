@@ -1,7 +1,114 @@
 <!DOCTYPE html>
-<html>
+<html lang="pt-br">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Mundo em 3D - UEPG</title>
+  <script src="https://aframe.io/releases/1.6.0/aframe.min.js"></script>
+  <style>
+    body {
+      margin: 10;
+      font-family: 'verdana', sans-serif;
+    }
+    #menu, #instrucoes, #sobre {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.8);
+      display: flex;
+      justify-content: left;
+      align-items: left;
+      flex-direction: column;
+      color: white;
+      z-index: 10;
+      text-align: center;
+    }
+    #menu, #instrucoes, #sobre {
+      background: url('https://cdn.mos.cms.futurecdn.net/c7430b83771cb95dd5a6c49d593b4ec5-320-80.gif') no-repeat center center/cover;
+    }
+    #menu h1, #menu h3, #instrucoes h1, #sobre h1 {
+      text-shadow: 5px 5px 5px #000;
+    }
+    #menu button, #instrucoes button, #sobre button {
+      padding: 10px 20px;
+      font-size: 20px;
+      margin: 10px;
+      cursor: pointer;
+      background-color: #fff;
+      border: 3px solid lime;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+    }
+    #menu button i, #instrucoes button i, #sobre button i {
+      margin-right: 10px;
+    }
+    #instrucoes, #sobre {
+      display: none;
+    }
+  </style>
+</head>
 <body>
-<h1>Hello World</h1>
-<p>I'm hosted with GitHub Pages.</p>
+
+  <div id="menu">
+    <h1>PROJETO DE EXTENSÃO 3<br>UEPG</h1>
+    <h3>Jogo da Forca em realidade aumentada</h3>
+    <button id="show-instructions">Instruções do Jogo</button>
+    <button id="show-about">Sobre o Projeto</button>
+    <button id="start-game">Iniciar Jogo</button>
+  </div>
+
+  <div id="instrucoes">
+    <h1>Projeto de extensão 3 <br> UEPG</h1>
+    <h3>Aqui vão as instruções do jogo...</h3>
+    <button id="back-to-menu-instrucoes"><i class="fas fa-arrow-left"></i> Voltar ao Menu</button>
+  </div>
+
+  <div id="sobre">
+    <h1>Projeto de extensão 3<br> UEPG</h1>
+    <h3>Olá! bem vindo! :)<br>Sobre o projeto: Este projeto foi desenvolvido pelos acadêmicos Michel e Caroline da Universidade Estadual de Ponta Grossa (UEPG), como nota parcial do projeto de extensão 3, do segundo semestre do 2º ano do curso de Engenharia de Software.
+    <br>O projeto é uma aplicação web baseada em HTML, CSS e JS, utilizando o framework A-frame. Construído o famoso Joguinho da Forca com realidade aumentada.<br>
+    O objetivo desse projeto é estimular e facilitar os alunos das escolas a aprender um novo idioma de forma divertida e descontraída, utilizando tecnologias simples! :)</h3>
+    <button id="back-to-menu-sobre"><i class="fas fa-arrow-left"></i> Voltar ao Menu</button>
+    <br>
+  </div>
+
+  <a-scene>
+    <a-assets>
+      <audio id="background-music" src="https://cdn.glitch.global/64ecda85-21e0-4da5-947e-f5cdaddae142/background-music.mp3" preload="auto" autoplay loop></audio>
+    </a-assets>
+    <a-entity id="music-entity" sound="src: #background-music; autoplay: true; loop: true"></a-entity>
+  </a-scene>
+
+  <script>
+    document.getElementById('show-instructions').addEventListener('click', function() {
+      document.getElementById('menu').style.display = 'none';
+      document.getElementById('instrucoes').style.display = 'flex';
+    });
+
+    document.getElementById('show-about').addEventListener('click', function() {
+      document.getElementById('menu').style.display = 'none';
+      document.getElementById('sobre').style.display = 'flex';
+    });
+
+    document.getElementById('back-to-menu-instrucoes').addEventListener('click', function() {
+      document.getElementById('instrucoes').style.display = 'none';
+      document.getElementById('menu').style.display = 'flex';
+    });
+
+    document.getElementById('back-to-menu-sobre').addEventListener('click', function() {
+      document.getElementById('sobre').style.display = 'none';
+      document.getElementById('menu').style.display = 'flex';
+    });
+
+    document.getElementById('start-game').addEventListener('click', function() {
+      document.getElementById('menu').style.display = 'none';
+      // Iniciar o jogo - adicione aqui o código para iniciar o jogo
+    });
+  </script>
+
 </body>
 </html>
