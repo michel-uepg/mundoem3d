@@ -1,19 +1,19 @@
 document.addEventListener('DOMContentLoaded', function() {
-  var soundEntity = document.getElementById('sound-entity');
+  var backgroundMusic = document.getElementById('background-music');
   var musicControlButton = document.getElementById('music-control');
 
-  musicControlButton.addEventListener('click', function() {
-    var audioContext = new (window.AudioContext || window.webkitAudioContext)();
-    if (audioContext.state === 'suspended') {
-      audioContext.resume();
-    }
-    if (soundEntity.components.sound.isPlaying) {
-      soundEntity.components.sound.pauseSound();
-      musicControlButton.textContent = 'Play';
-    } else {
-      soundEntity.components.sound.playSound();
+  function toggleSound() {
+    if (backgroundMusic.paused) {
+      backgroundMusic.play();
       musicControlButton.textContent = 'Pause';
+    } else {
+      backgroundMusic.pause();
+      musicControlButton.textContent = 'Play';
     }
+  }
+
+  musicControlButton.addEventListener('click', function() {
+    toggleSound();
   });
 
   document.getElementById('show-instructions').addEventListener('click', function() {
