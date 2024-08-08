@@ -1,0 +1,95 @@
+body {
+  margin: 0;
+  font-family: 'verdana', sans-serif;
+  overflow: hidden;
+}
+#menu, #instrucoes, #sobre {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.8);
+  display: flex;
+  justify-content: center; /* Centraliza horizontalmente */
+  align-items: center; /* Centraliza verticalmente */
+  flex-direction: column;
+  color: white;
+  z-index: 10;
+  text-align: center;
+  overflow: auto; /* Permite rolagem */
+}
+#menu, #instrucoes, #sobre {
+  background: url('img/fundo.gif') no-repeat center center/cover;
+}
+#menu h1, #menu h3, #instrucoes h1, #sobre h1, h2, h3 {
+  text-shadow: 5px 5px 5px #000;
+}
+#menu button, #instrucoes button, #sobre button {
+  padding: 10px 20px;
+  font-size: 20px;
+  margin: 10px;
+  cursor: pointer;
+  background-color: #fff;
+  border: 3px solid lime;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  width: 250px; 
+}
+#menu button a {
+  text-decoration: none;
+  color: inherit;
+  display: block;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  line-height: 100%;
+}
+#instrucoes, #sobre {
+  display: none;
+}
+.music-button {
+  position: fixed;
+  bottom: 10px;
+  left: 10px;
+  padding: 10px;
+  background-color: #fff;
+  border: 3px solid lime;
+  cursor: pointer;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10; /* Certifique-se de que este botão esteja em uma camada superior */
+}
+
+/*Efeito de neve caindo */
+.snow {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 15;
+  background: transparent;
+}
+.snowflake {
+  position: absolute;
+  top: -10px;
+  width: 10px;
+  height: 10px;
+  background: white;
+  border-radius: 50%;
+  opacity: 0.8;
+  pointer-events: none;
+  animation: fall 10s linear infinite;
+}
+
+@keyframes fall {
+  to {
+    transform: translateY(100vh);
+  }
+}
