@@ -20,7 +20,7 @@ body {
   overflow: auto; /* Permite rolagem */
 }
 #menu, #instrucoes, #sobre {
-  background: url('img/fundo.gif') no-repeat center center/cover;
+  background: url('../img/fundo.gif') no-repeat center center/cover;
 }
 #menu h1, #menu h3, #instrucoes h1, #sobre h1, h2, h3 {
   text-shadow: 5px 5px 5px #000;
