@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Jogo da Forca - UEPG</title>
+  <meta name="description" content="Projeto de extensão 3 - UEPG">
+  <meta name="author" content="Michel de Lima">
+  <meta name="robots" content="noindex, nofollow">
+  <script src="https://aframe.io/releases/1.6.0/aframe.min.js"></script>
+  <script src="https://unpkg.com/aframe-environment-component@1.3.3/dist/aframe-environment-component.min.js"></script>
+</head>
+<body>
+  <a-scene>
+    <!-- Camera and Cursor -->
+    <a-camera position="0 1.6 0">
+      <a-cursor id="cursor" color="red"></a-cursor>
+    </a-camera>
+
+    <!-- Environment: Starry -->
+    <a-entity environment="preset: starry; groundColor: #445; grid: cross"></a-entity>
+
+    <!-- Instruction Card -->
+    <a-entity id="instruction-card" position="0 1.6 -3">
+      <a-plane color="#000" width="4" height="3" material="side: double">
+        <a-text value="Bem-vindo ao Jogo da Forca do Mundo em 3D da UEPG!" position="0 1 0" align="center" color="#FFF" width="3.5"></a-text>
+        <a-text value="1. Voce tem 10 minutos para acertar as palavras." position="0 0.4 0" align="center" color="#FFF" width="3.5"></a-text>
+        <a-text value="2. Use o cursor vermelho para selecionar uma letra." position="0 0 0" align="center" color="#FFF" width="3.5"></a-text>
+        <a-text value="3. Pressione Espaco para confirmar sua escolha." position="0 -0.4 0" align="center" color="#FFF" width="3.5"></a-text>
+        <a-text value="Pressione Enter para comecar" position="0 -1 0" align="center" color="#FFF" width="3.5"></a-text>
+      </a-plane>
+    </a-entity>
+
+    <!-- Target Word to Translate (Initially Hidden) -->
+    <a-text id="hidden-word" value="" color="#FFF" position="0 2.5 -3" width="6" visible="false"></a-text>
+    <a-text id="portuguese-word" value="" color="#FFF" position="0 2 -3" width="6" visible="false"></a-text>
+
+    <a-entity id="alphabet" position="0 1 -3" visible="false">
+  <a-entity class="letter" id="letter-A" position="-6 0 0">
+    <a-sphere radius="0.5" color="#4CC3D9"></a-sphere>
+    <a-text value="A" align="center" color="#FFF" position="0 0.75 0" width="6"></a-text>
+  </a-entity>
+  <a-entity class="letter" id="letter-B" position="-5.2 0 0">
+    <a-sphere radius="0.5" color="#4CC3D9"></a-sphere>
+    <a-text value="B" align="center" color="#FFF" position="0 0.75 0" width="6"></a-text>
+  </a-entity>
+  <a-entity class="letter" id="letter-C" position="-4.4 0 0">
+    <a-sphere radius="0.5" color="#4CC3D9"></a-sphere>
+    <a-text value="C" align="center" color="#FFF" position="0 0.75 0" width="6"></a-text>
+  </a-entity>
+  <a-entity class="letter" id="letter-D" position="-3.6 0 0">
+    <a-sphere radius="0.5" color="#4CC3D9"></a-sphere>
+    <a-text value="D" align="center" color="#FFF" position="0 0.75 0" width="6"></a-text>
+  </a-entity>
+  <a-entity class="letter" id="letter-E" position="-2.8 0 0">
+    <a-sphere radius="0.5" color="#4CC3D9"></a-sphere>
+    <a-text value="E" align="center" color="#FFF" position="0 0.75 0" width="6"></a-text>
+  </a-entity>
+  <a-entity class="letter" id="letter-F" position="-2 0 0">
+    <a-sphere radius="0.5" color="#4CC3D9"></a-sphere>
+    <a-text value="F" align="center" color="#FFF" position="0 0.75 0" width="6"></a-text>
+  </a-entity>
+  <a-entity class="letter" id="letter-G" position="-1.2 0 0">
+    <a-sphere radius="0.5" color="#4CC3D9"></a-sphere>
+    <a-text value="G" align="center" color="#FFF" position="0 0.75 0" width="6"></a-text>
+  </a-entity>
+  <a-entity class="letter" id="letter-H" position="-0.4 0 0">
+    <a-sphere radius="0.5" color="#4CC3D9"></a-sphere>
+    <a-text value="H" align="center" color="#FFF" position="0 0.75 0" width="6"></a-text>
+  </a-entity>
+  <a-entity class="letter" id="letter-I" position="0.4 0 0">
+    <a-sphere radius="0.5" color="#4CC3D9"></a-sphere>
+    <a-text value="I" align="center" color="#FFF" position="0 0.75 0" width="6"></a-text>
+  </a-entity>
+  <a-entity class="letter" id="letter-J" position="1.2 0 0">
+    <a-sphere radius="0.5" color="#4CC3D9"></a-sphere>
+    <a-text value="J" align="center" color="#FFF" position="0 0.75 0" width="6"></a-text>
+  </a-entity>
+  <a-entity class="letter" id="letter-K" position="2 0 0">
+    <a-sphere radius="0.5" color="#4CC3D9"></a-sphere>
+    <a-text value="K" align="center" color="#FFF" position="0 0.75 0" width="6"></a-text>
+  </a-entity>
+  <a-entity class="letter" id="letter-L" position="2.8 0 0">
+    <a-sphere radius="0.5" color="#4CC3D9"></a-sphere>
+    <a-text value="L" align="center" color="#FFF" position="0 0.75 0" width="6"></a-text>
+  </a-entity>
+  <a-entity class="letter" id="letter-M" position="3.6 0 0">
+    <a-sphere radius="0.5" color="#4CC3D9"></a-sphere>
+    <a-text value="M" align="center" color="#FFF" position="0 0.75 0" width="6"></a-text>
+  </a-entity>
+  <a-entity class="letter" id="letter-N" position="4.4 0 0">
+    <a-sphere radius="0.5" color="#4CC3D9"></a-sphere>
+    <a-text value="N" align="center" color="#FFF" position="0 0.75 0" width="6"></a-text>
+  </a-entity>
+  <a-entity class="letter" id="letter-O" position="5.2 0 0">
+    <a-sphere radius="0.5" color="#4CC3D9"></a-sphere>
+    <a-text value="O" align="center" color="#FFF" position="0 0.75 0" width="6"></a-text>
+  </a-entity>
+  <a-entity class="letter" id="letter-P" position="6 0 0">
+    <a-sphere radius="0.5" color="#4CC3D9"></a-sphere>
+    <a-text value="P" align="center" color="#FFF" position="0 0.75 0" width="6"></a-text>
+  </a-entity>
+  <a-entity class="letter" id="letter-Q" position="6.8 0 0">
+    <a-sphere radius="0.5" color="#4CC3D9"></a-sphere>
+    <a-text value="Q" align="center" color="#FFF" position="0 0.75 0" width="6"></a-text>
+  </a-entity>
+  <a-entity class="letter" id="letter-R" position="7.6 0 0">
+    <a-sphere radius="0.5" color="#4CC3D9"></a-sphere>
+    <a-text value="R" align="center" color="#FFF" position="0 0.75 0" width="6"></a-text>
+  </a-entity>
+  <a-entity class="letter" id="letter-S" position="8.4 0 0">
+    <a-sphere radius="0.5" color="#4CC3D9"></a-sphere>
+    <a-text value="S" align="center" color="#FFF" position="0 0.75 0" width="6"></a-text>
+  </a-entity>
+  <a-entity class="letter" id="letter-T" position="9.2 0 0">
+    <a-sphere radius="0.5" color="#4CC3D9"></a-sphere>
+    <a-text value="T" align="center" color="#FFF" position="0 0.75 0" width="6"></a-text>
+  </a-entity>
+  <a-entity class="letter" id="letter-U" position="10 0 0">
+    <a-sphere radius="0.5" color="#4CC3D9"></a-sphere>
+    <a-text value="U" align="center" color="#FFF" position="0 0.75 0" width="6"></a-text>
+  </a-entity>
+  <a-entity class="letter" id="letter-V" position="10.8 0 0">
+    <a-sphere radius="0.5" color="#4CC3D9"></a-sphere>
+    <a-text value="V" align="center" color="#FFF" position="0 0.75 0" width="6"></a-text>
+  </a-entity>
+  <a-entity class="letter" id="letter-W" position="11.6 0 0">
+    <a-sphere radius="0.5" color="#4CC3D9"></a-sphere>
+    <a-text value="W" align="center" color="#FFF" position="0 0.75 0" width="6"></a-text>
+  </a-entity>
+  <a-entity class="letter" id="letter-X" position="12.4 0 0">
+    <a-sphere radius="0.5" color="#4CC3D9"></a-sphere>
+    <a-text value="X" align="center" color="#FFF" position="0 0.75 0" width="6"></a-text>
+  </a-entity>
+  <a-entity class="letter" id="letter-Y" position="13.2 0 0">
+    <a-sphere radius="0.5" color="#4CC3D9"></a-sphere>
+    <a-text value="Y" align="center" color="#FFF" position="0 0.75 0" width="6"></a-text>
+  </a-entity>
+  <a-entity class="letter" id="letter-Z" position="14 0 0">
+    <a-sphere radius="0.5" color="#4CC3D9"></a-sphere>
+    <a-text value="Z" align="center" color="#FFF" position="0 0.75 0" width="6"></a-text>
+  </a-entity>
+</a-entity>
+
+
+    <!-- Feedback Text (Initially Hidden) -->
+    <a-text id="feedback" value="" color="#FFF" position="0 1.5 -2.5" width="6" visible="false"></a-text>
+
+    <!-- Timer Text (Initially Hidden) -->
+    <a-text id="timer" value="Time: 600" color="#FFF" position="0 3 -3" width="6" visible="false"></a-text>
+
+    <!-- Score Text (Initially Hidden) -->
+    <a-text id="score" value="Score: 0" color="#FFF" position="2 3 -3" width="6" visible="false"></a-text>
+
+  </a-scene>
+
+<script>
+  const words = [
+    {portuguese: "FERRAMENTA", english: "TOOL"},
+    {portuguese: "TESOURO", english: "TREASURE"},
+    {portuguese: "Casa", english: "HOUSE"},
+    {portuguese: "Escola", english: "SCHOOL"},
+    {portuguese: "PESSOAS", english: "PEOPLE"},
+    {portuguese: "Livro", english: "BOOK"},
+    {portuguese: "Computador", english: "COMPUTER"},
+    {portuguese: "Telefone", english: "PHONE"},
+    {portuguese: "FESTA", english: "PARTY"},
+    {portuguese: "Janela", english: "WINDOW"}
+  ];
+
+  let currentWordIndex = 0;
+let guessedWord = [];
+let chances = 6;
+let score = 0;
+let timeLeft = 600;
+let countdown = null;
+let selectedLetter = null;
+const timerElement = document.querySelector('#timer');
+const feedbackElement = document.querySelector('#feedback');
+const hiddenWordElement = document.querySelector('#hidden-word');
+const portugueseWordElement = document.querySelector('#portuguese-word');
+const scoreElement = document.querySelector('#score');
+
+// Function to initialize the word to guess
+function initializeWord() {
+    const word = words[currentWordIndex];
+    guessedWord = Array(word.english.length).fill("_");
+    hiddenWordElement.setAttribute('value', guessedWord.join(" "));
+    portugueseWordElement.setAttribute('value', `Traduza: ${word.portuguese}`);
+}
+
+// Function to load the next word
+function loadWord() {
+    if (currentWordIndex >= words.length) {
+        feedbackElement.setAttribute('value', `Parabens! Voce completou o jogo com ${score} pontos.`);
+        clearInterval(countdown); // Stop the timer when the game ends
+        return;
+    }
+
+    initializeWord();
+    chances = 6;
+    scoreElement.setAttribute('value', `Score: ${score}`);
+}
+
+// Timer logic
+function startTimer() {
+    if (countdown === null) { // Start the timer only if it's not already running
+        countdown = setInterval(function() {
+            if (timeLeft > 0) {
+                timeLeft--;
+                timerElement.setAttribute('value', 'Time: ' + timeLeft);
+            } else {
+                clearInterval(countdown);
+                feedbackElement.setAttribute('value', 'Tempo Esgotado!');
+                setTimeout(() => {
+                    feedbackElement.setAttribute('value', `Fim do jogo! Seu score final é ${score}`);
+                }, 1000);
+            }
+        }, 1000);
+    }
+}
+
+// Detecting which letter is being selected
+document.querySelectorAll('.letter').forEach(function(letter) {
+    letter.addEventListener('mouseenter', function () {
+        selectedLetter = letter.querySelector('a-text').getAttribute('value');
+    });
+    letter.addEventListener('mouseleave', function () {
+        selectedLetter = null;
+    });
+});
+
+// Handle space key to confirm the choice
+document.addEventListener('keydown', function(event) {
+    if (event.code === 'Space' && selectedLetter) {
+        const word = words[currentWordIndex].english;
+        let correctGuess = false;
+
+        for (let i = 0; i < word.length; i++) {
+            if (word[i] === selectedLetter) {
+                guessedWord[i] = selectedLetter;
+                correctGuess = true;
+            }
+        }
+
+        hiddenWordElement.setAttribute('value', guessedWord.join(" "));
+
+        if (!correctGuess) {
+            chances--;
+            feedbackElement.setAttribute('value', `Chances restantes: ${chances}`);
+        }
+
+        if (guessedWord.join("") === word) {
+            score += chances; // Add remaining chances to score
+            currentWordIndex++;
+            feedbackElement.setAttribute('value', 'Correto! Proxima palavra...');
+            setTimeout(() => {
+                feedbackElement.setAttribute('value', '');
+                loadWord();
+            }, 5000);
+        }
+
+        if (chances <= 0) {
+            currentWordIndex++;
+            feedbackElement.setAttribute('value', `Fim das chances! A palavra era ${word}`);
+            setTimeout(() => {
+                feedbackElement.setAttribute('value', '');
+                loadWord();
+            }, 2000);
+        }
+
+        scoreElement.setAttribute('value', `Score: ${score}`);
+    }
+});
+
+// Function to start the game
+function startGame() {
+    document.querySelector('#instruction-card').setAttribute('visible', 'false');
+    document.querySelector('#hidden-word').setAttribute('visible', 'true');
+    document.querySelector('#portuguese-word').setAttribute('visible', 'true');
+    document.querySelector('#alphabet').setAttribute('visible', 'true');
+    document.querySelector('#feedback').setAttribute('visible', 'true');
+    document.querySelector('#timer').setAttribute('visible', 'true');
+    document.querySelector('#score').setAttribute('visible', 'true');
+
+    loadWord();
+    startTimer();
+}
+
+// Detecting Enter key to start the game
+document.addEventListener('keydown', function(event) {
+    if (event.code === 'Enter') {
+        startGame();
+    }
+});
+
+
+</script>
+</body>
+</html>

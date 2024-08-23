@@ -1,9 +1,10 @@
 body {
   margin: 0;
-  font-family: 'verdana', sans-serif;
+  font-family: Verdana, sans-serif;
   overflow: hidden;
 }
-#menu, #instrucoes, #sobre {
+
+#menu, #instrucoes, #sobre, #jogos {
   position: absolute;
   top: 0;
   left: 0;
@@ -19,13 +20,16 @@ body {
   text-align: center;
   overflow: auto; /* Permite rolagem */
 }
-#menu, #instrucoes, #sobre {
-  background: url('../img/fundo.gif') no-repeat center center/cover;
+
+#menu, #instrucoes, #sobre, #jogos  {
+  background: url('https://cdn.glitch.global/64ecda85-21e0-4da5-947e-f5cdaddae142/fundo.gif?v=1723081676336') no-repeat center center/cover;
 }
+
 #menu h1, #menu h3, #instrucoes h1, #sobre h1, h2, h3 {
   text-shadow: 5px 5px 5px #000;
 }
-#menu button, #instrucoes button, #sobre button {
+
+#menu button, #instrucoes button, #sobre button, #jogos button {
   padding: 10px 20px;
   font-size: 20px;
   margin: 10px;
@@ -36,8 +40,10 @@ body {
   align-items: center;
   justify-content: center;
   font-weight: bold;
-  width: 250px; 
+  width: 300px; 
+  border-radius: 20px;
 }
+
 #menu button a {
   text-decoration: none;
   color: inherit;
@@ -47,9 +53,11 @@ body {
   text-align: center;
   line-height: 100%;
 }
-#instrucoes, #sobre {
+
+#instrucoes, #sobre, #jogos {
   display: none;
 }
+
 .music-button {
   position: fixed;
   bottom: 10px;
@@ -62,7 +70,7 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 10; /* Certifique-se de que este botão esteja em uma camada superior */
+  z-index: 30; /* Certifique-se de que este botão esteja em uma camada superior */
 }
 
 /*Efeito de neve caindo */
@@ -76,6 +84,7 @@ body {
   z-index: 15;
   background: transparent;
 }
+
 .snowflake {
   position: absolute;
   top: -10px;

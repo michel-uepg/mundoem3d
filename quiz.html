@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Quiz de Tradução - UEPG</title>
+  <meta name="description" content="Projeto de extensão 3 - UEPG">
+  <meta name="author" content="Michel de Lima">
+  <meta name="robots" content="noindex, nofollow">
+  <script src="https://aframe.io/releases/1.6.0/aframe.min.js"></script>
+  <script src="https://unpkg.com/aframe-environment-component@1.3.3/dist/aframe-environment-component.min.js"></script>
+</head>
+<body>
+  <a-scene>
+    <!-- Camera and Cursor -->
+    <a-camera position="0 1.6 0">
+      <a-cursor id="cursor" color="red"></a-cursor>
+    </a-camera>
+    
+    <!-- Environment: Forest -->
+    <a-entity environment="preset: goldmine; groundColor: #445; grid: cross"></a-entity>
+    
+    <!-- Instruction Card -->
+    <a-entity id="instruction-card" position="0 1.6 -3">
+      <a-plane color="#000" width="4" height="3" material="side: double">
+        <a-text value="Bem-vindo ao Quiz do Mundo em 3D da UEPG!" position="0 1 0" align="center" color="#FFF" width="3.5"></a-text>
+        <a-text value="1. 30 segundos de tempo, e 35 palavras para traduzir." position="0 0.4 0" align="center" color="#FFF" width="3.5"></a-text>
+        <a-text value="2. Use o cursor vermelho para selecionar uma esfera." position="0 0 0" align="center" color="#FFF" width="3.5"></a-text>
+        <a-text value="3. Pressione Espaco para selecionar a esfera e confirmar sua escolha." position="0 -0.4 0" align="center" color="#FFF" width="3.5"></a-text>
+        <a-text value="Pressione Enter para comecar" position="0 -1 0" align="center" color="#FFF" width="3.5"></a-text>
+      </a-plane>
+    </a-entity>
+
+    <!-- Target Word to Translate (Initially Hidden) -->
+    <a-text id="target-word" value="Traduza: Carro" color="#FFF" position="0 2.5 -3" width="6" visible="false"></a-text>
+
+    <!-- Answer Options (Spheres with Text) Initially Hidden -->
+    <a-entity id="option1" class="option" position="-2 1.5 -3" visible="false">
+      <a-sphere radius="0.5" color="#4CC3D9"></a-sphere>
+      <a-text value="Car" align="center" color="#FFF" position="0 0.75 0" width="4"></a-text>
+    </a-entity>
+
+    <a-entity id="option2" class="option" position="-0.5 1.5 -3" visible="false">
+      <a-sphere radius="0.5" color="#EF2D5E"></a-sphere>
+      <a-text value="Bike" align="center" color="#FFF" position="0 0.75 0" width="4"></a-text>
+    </a-entity>
+
+    <a-entity id="option3" class="option" position="1 1.5 -3" visible="false">
+      <a-sphere radius="0.5" color="#24CAFF"></a-sphere>
+      <a-text value="Plane" align="center" color="#FFF" position="0 0.75 0" width="4"></a-text>
+    </a-entity>
+
+    <a-entity id="option4" class="option" position="2.5 1.5 -3" visible="false">
+      <a-sphere radius="0.5" color="#FF6347"></a-sphere>
+      <a-text value="Boat" align="center" color="#FFF" position="0 0.75 0" width="4"></a-text>
+    </a-entity>
+
+    <a-entity id="option5" class="option" position="4 1.5 -3" visible="false">
+      <a-sphere radius="0.5" color="#9ACD32"></a-sphere>
+      <a-text value="Bus" align="center" color="#FFF" position="0 0.75 0" width="4"></a-text>
+    </a-entity>
+
+    <!-- Feedback Text (Initially Hidden) -->
+    <a-text id="feedback" value="" color="#FFF" position="0 1.5 -2.5" width="6" visible="false"></a-text>
+
+    <!-- Timer Text (Initially Hidden) -->
+    <a-text id="timer" value="Time: 30" color="#FFF" position="0 3 -3" width="6" visible="false"></a-text>
+
+    <!-- Score Text (Initially Hidden) -->
+    <a-text id="score" value="Score: 0" color="#FFF" position="2 3 -3" width="6" visible="false"></a-text>
+
+  </a-scene>
+
+<script>
+  const words = [
+    {portuguese: "Cachorro", correct: "option1", translations: ["Dog", "Cat", "Bird", "Fish", "Mouse"]},
+    {portuguese: "Casa", correct: "option2", translations: ["Car", "House", "Book", "Table", "Chair"]},
+    {portuguese: "Arvore", correct: "option3", translations: ["Sky", "Water", "Tree", "Cloud", "Rain"]},
+    {portuguese: "Carro", correct: "option4", translations: ["Plane", "Boat", "Bike", "Car", "Bus"]},
+    {portuguese: "Caneta", correct: "option5", translations: ["Paper", "Pencil", "Notebook", "Eraser", "Pen"]},
+    {portuguese: "Janela", correct: "option1", translations: ["Window", "Door", "Roof", "Wall", "Floor"]},
+    {portuguese: "Garrafa", correct: "option2", translations: ["Fork", "Bottle", "Knife", "Plate", "Glass"]},
+    {portuguese: "Floresta", correct: "option3", translations: ["Beach", "Mountain", "Forest", "Desert", "Valley"]},
+    {portuguese: "Trem", correct: "option4", translations: ["Plane", "Car", "Boat", "Train", "Bike"]},
+    {portuguese: "Relogio", correct: "option5", translations: ["Clock", "Calendar", "Watch", "Phone", "Computer"]},
+    {portuguese: "Jaqueta", correct: "option1", translations: ["Jacket", "Shirt", "Pants", "Shoes", "Hat"]},
+    {portuguese: "Biblioteca", correct: "option3", translations: ["School", "Office", "Library", "Hospital", "Restaurant"]},
+    {portuguese: "Ponte", correct: "option2", translations: ["Tunnel", "Bridge", "Road", "Path", "Highway"]},
+    {portuguese: "Camera", correct: "option4", translations: ["Radio", "Phone", "TV", "Camera", "Tablet"]},
+    {portuguese: "Quebra-cabeça", correct: "option2", translations: ["Game", "Puzzle", "Quiz", "Test", "Challenge"]},
+    {portuguese: "Rua", correct: "option1", translations: ["Street", "Avenue", "Boulevard", "Road", "Path"]},
+    {portuguese: "Escola", correct: "option1", translations: ["School", "College", "University", "Library", "Office"]},
+    {portuguese: "Rio", correct: "option3", translations: ["Ocean", "Sea", "River", "Lake", "Pond"]},
+    {portuguese: "Fruta", correct: "option1", translations: ["Fruit", "Vegetable", "Meat", "Bread", "Dairy"]},
+    {portuguese: "Sol", correct: "option4", translations: ["Moon", "Star", "Planet", "Sun", "Comet"]},
+    {portuguese: "Livro", correct: "option3", translations: ["Magazine", "Newspaper", "Book", "Journal", "Comic"]},
+    {portuguese: "Telefone", correct: "option2", translations: ["Tablet", "Phone", "Laptop", "Desktop", "Monitor"]},
+    {portuguese: "Cadeira", correct: "option1", translations: ["Chair", "Table", "Desk", "Sofa", "Bed"]},
+    {portuguese: "Aviao", correct: "option4", translations: ["Train", "Bus", "Car", "Plane", "Bicycle"]},
+    {portuguese: "Mapa", correct: "option1", translations: ["Map", "Atlas", "Globe", "Chart", "Diagram"]},
+    {portuguese: "Flor", correct: "option1", translations: ["Flower", "Tree", "Plant", "Bush", "Grass"]},
+    {portuguese: "Computador", correct: "option2", translations: ["Mouse", "Computer", "Keyboard", "Monitor", "Printer"]},
+    {portuguese: "Estrela", correct: "option1", translations: ["Star", "Moon", "Planet", "Sun", "Galaxy"]},
+    {portuguese: "Chave", correct: "option4", translations: ["Lock", "Door", "Window", "Key", "Handle"]},
+    {portuguese: "Papel", correct: "option3", translations: ["Pen", "Notebook", "Paper", "Folder", "Clip"]},
+    {portuguese: "Montanha", correct: "option2", translations: ["Hill", "Mountain", "Valley", "Plateau", "Plain"]},
+    {portuguese: "Sapo", correct: "option1", translations: ["Frog", "Toad", "Lizard", "Snake", "Turtle"]},
+    {portuguese: "Chocolate", correct: "option2", translations: ["Candy", "Chocolate", "Cake", "Cookie", "Ice Cream"]},
+    {portuguese: "Bolsa", correct: "option1", translations: ["Bag", "Wallet", "Purse", "Backpack", "Suitcase"]},
+    {portuguese: "Engenharia de software", correct: "option5", translations: ["Phone", "Engineering Software", "Laptop", "Computer", "Software engineering"]}
+  ];
+
+  let currentWordIndex = 0;
+  let chances = 3;
+  let score = 0;
+  let timeLeft = 30;
+  let selectedOption = null;
+  let isGameActive = false; // Verifica se o jogo está ativo
+  let countdown = null; // Variável para o temporizador
+
+  const timerElement = document.querySelector('#timer');
+  const feedbackElement = document.querySelector('#feedback');
+  const targetWordElement = document.querySelector('#target-word');
+  const scoreElement = document.querySelector('#score');
+    
+  // Função para carregar a próxima palavra
+  function loadWord() {
+    if (currentWordIndex >= words.length) {
+      feedbackElement.setAttribute('value', `Parabens! Voce completou o quiz com ${score} pontos.`);
+      isGameActive = false;
+      clearInterval(countdown);
+      return;
+    }
+
+    const word = words[currentWordIndex];
+    targetWordElement.setAttribute('value', `Traduza: ${word.portuguese}`);
+
+    // Configurar as traduções nas esferas
+    for (let i = 1; i <= 5; i++) {
+      document.querySelector(`#option${i} a-text`).setAttribute('value', word.translations[i-1]);
+    }
+
+    // Reiniciar o cronômetro para cada palavra
+    timeLeft = 30;
+    timerElement.setAttribute('value', 'Time: ' + timeLeft);
+  }
+
+  // Lógica do temporizador
+  function startTimer() {
+    countdown = setInterval(function() {
+      if (!isGameActive) {
+        clearInterval(countdown);
+        return;
+      }
+
+      if (timeLeft > 0) {
+        timeLeft--;
+        timerElement.setAttribute('value', 'Time: ' + timeLeft);
+      } else {
+        feedbackElement.setAttribute('value', 'Tempo Esgotado!');
+        currentWordIndex++;
+        chances = 3; // Reiniciar as chances para a próxima palavra
+        setTimeout(() => {
+          feedbackElement.setAttribute('value', '');
+          loadWord();
+        }, 1000);
+      }
+    }, 1000);
+  }
+
+  // Detectar qual esfera está sendo observada
+  document.querySelectorAll('.option').forEach(function(option) {
+    option.addEventListener('mouseenter', function () {
+      selectedOption = option.getAttribute('id');
+    });
+    option.addEventListener('mouseleave', function () {
+      selectedOption = null;
+    });
+  });
+
+  // Lidar com a tecla espaço para confirmar a escolha
+  document.addEventListener('keydown', function(event) {
+    if (event.code === 'Space' && selectedOption && isGameActive) {
+      const word = words[currentWordIndex];
+
+      if (selectedOption === word.correct) {
+        feedbackElement.setAttribute('value', 'Correto!');
+        score++;
+        scoreElement.setAttribute('value', `Score: ${score}`);
+        currentWordIndex++;
+        setTimeout(() => {
+          feedbackElement.setAttribute('value', '');
+          chances = 3; // Reiniciar as chances para a próxima palavra
+          loadWord();
+        }, 1000);
+      } else {
+        chances--;
+        feedbackElement.setAttribute('value', `Tente Novamente! Chances restantes: ${chances}`);
+        if (chances <= 0) {
+          currentWordIndex++;
+          chances = 3;
+          setTimeout(() => {
+            feedbackElement.setAttribute('value', '');
+            loadWord();
+          }, 1000);
+        }
+      }
+    }
+  });
+
+  // Função para iniciar o jogo
+  function startGame() {
+    isGameActive = true; // Ativa o jogo
+    document.querySelector('#instruction-card').setAttribute('visible', 'false');
+    document.querySelector('#target-word').setAttribute('visible', 'true');
+    document.querySelectorAll('.option').forEach(option => {
+      option.setAttribute('visible', 'true');
+    });
+    document.querySelector('#feedback').setAttribute('visible', 'true');
+    document.querySelector('#timer').setAttribute('visible', 'true');
+    document.querySelector('#score').setAttribute('visible', 'true');
+    
+    // Carregar a primeira palavra e iniciar o cronômetro
+    loadWord();
+    startTimer();
+  }
+
+  // Detectar tecla Enter para iniciar o jogo
+  document.addEventListener('keydown', function(event) {
+    if (event.code === 'Enter' && !isGameActive) {
+      startGame();
+    }
+  });
+
+</script>
+</body>
+</html>

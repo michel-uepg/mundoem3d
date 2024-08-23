@@ -9,44 +9,50 @@
   <meta name="author" content="Michel de Lima">
   <meta name="robots" content="noindex, nofollow">
   <script src="https://aframe.io/releases/1.6.0/aframe.min.js"></script>
-  <!-- Customização -->
-  <script type="text/javascript" src="js/script.js" defer></script>
-  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/style.css"> <!-- Link para o arquivo CSS -->
+  <script src="js/script.js"></script> <!-- Link para o arquivo JavaScript -->
 </head>
 <body>
-
   <div id="menu">
-    <h1>PROJETO DE EXTENSÃO 3<br> Universidade Estadual de Ponta Grossa PR<br>UEPG</h1>
-    <h2><u>Jogos com realidade aumentada para aprendizado escolar!</u></h2>
+    <h1>PROJETO DE EXTENSÃO 3:<br>Mundo em 3D<br> Universidade Estadual de Ponta Grossa PR<br>UEPG</h1>
+    <h2><u>Realidade virtual para aprendizado escolar!</u></h2>
     <button id="show-about">Sobre o Projeto</button>
-    <button id="show-instructions">Instruções dos Jogos</button>
-    <button id="start-game"><a href="teste.html">Iniciar Jogo</a></button>
+    <button id="show-instructions">Instruções</button>
+    <button id="start-game">Área de Jogos</button>
   </div>
 
   <div id="instrucoes">
     <h1>Projeto de extensão 3 <br> UEPG</h1>
-    <h3>Aqui vão as instruções do jogo...</h3>
+    <h3>Instruções...</h3>
+    <h3>Cards Interativos: Aproxime a imagem do card próximo a câmera.</h3>
     <button id="back-to-menu-instrucoes">&#8592; Voltar ao Menu</button>
   </div>
 
   <div id="sobre">
     <h1>Projeto de extensão 3<br> UEPG</h1>
-    <h3>Olá! bem vindo! :)<br>Sobre o projeto: Este projeto foi desenvolvido pelos acadêmicos Michel e Caroline da Universidade Estadual de Ponta Grossa (UEPG), como nota parcial do projeto de extensão 3, do segundo semestre do 2º ano do curso de Engenharia de Software.
-    <br>O projeto é uma aplicação web baseada em HTML, CSS e JS, utilizando o framework A-frame. Construído o famoso Joguinho da Forca com realidade aumentada.<br>
-    O objetivo desse projeto é estimular e facilitar os alunos das escolas a aprender um novo idioma de forma divertida e descontraída, utilizando tecnologias simples! :)</h3>
+    <h3>Olá! Bem-vindo! :)<br>Sobre O Projeto "Mundo em 3D": É uma iniciativa inovadora do curso de Engenharia de Software, da Universidade Estadual de Ponta Grossa (UEPG), situada no Paraná, voltada para a integração de tecnologias emergentes no ambiente educacional. Este projeto tem como objetivo principal explorar o potencial da Realidade Virtual (VR) como uma ferramenta pedagógica para enriquecer o processo de ensino-aprendizado em escolas da região.
+      A Realidade Virtual é uma tecnologia que cria ambientes completamente digitais, permitindo que os estudantes sejam imersos em mundos virtuais onde podem interagir com objetos e cenários tridimensionais. Através deste projeto, a UEPG visa utilizar a VR para transformar a maneira como os conteúdos escolares são apresentados, proporcionando uma experiência educacional mais envolvente e interativa.<br>
+    Este projeto de extensão foi desenvolvido pelos acadêmicos Michel e Caroline, no 2º ano do curso de Engenharia de Software.</h3>
     <button id="back-to-menu-sobre">&#8592; Voltar ao Menu</button>
     <br>
+</div>
+
+
+  <div id="jogos">
+    <h1>Escolha um Jogo:</h1>
+    <button onclick="window.location.href='quiz.html'">Quiz Interativo</button>
+    <button onclick="window.location.href='forca.html'">Jogo da Forca</button>
+    <button id="back-to-menu-jogos">&#8592; Voltar ao Menu</button>
   </div>
   
-  <a-scene>
+  <a-scene stats="false" vr-mode-ui="false">
     <a-assets>
-      <!-- áudio HTML -->
-      <audio id="background-music" src="audio/background-music.mp3" loop></audio>
+      <audio id="background-music" src="https://cdn.glitch.global/64ecda85-21e0-4da5-947e-f5cdaddae142/music.mp3?v=1722213217540"></audio>
     </a-assets>
+    <a-entity id="sound-entity" sound="src: #background-music; loop: true;"></a-entity>
   </a-scene>
 
-  <button id="music-control" class="music-button">Música</button>
+  <button id="music-control" class="music-button"><b>Música</b></button>
   <div class="snow"></div>
-
 </body>
 </html>

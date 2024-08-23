@@ -1,19 +1,26 @@
+// Música de fundo
 document.addEventListener('DOMContentLoaded', function() {
-  var backgroundMusic = document.getElementById('background-music');
+  var soundEntity = document.getElementById('sound-entity');
   var musicControlButton = document.getElementById('music-control');
 
-  function toggleSound() {
-    if (backgroundMusic.paused) {
-      backgroundMusic.play();
-      musicControlButton.textContent = 'Pause';
-    } else {
-      backgroundMusic.pause();
-      musicControlButton.textContent = 'Play';
-    }
-  }
-
   musicControlButton.addEventListener('click', function() {
-    toggleSound();
+    var audioContext = new (window.AudioContext || window.webkitAudioContext)();
+    if (audioContext.state === 'suspended') {
+      audioContext.resume();
+    }
+    if (soundEntity.components.sound.isPlaying) {
+      soundEntity.components.sound.pauseSound();
+      musicControlButton.textContent = 'Play';
+    } else {
+      soundEntity.components.sound.playSound();
+      musicControlButton.textContent = 'Pause';
+    }
+  });
+
+  // Navegação das Sessões do Menu
+  document.getElementById('show-about').addEventListener('click', function() {
+    document.getElementById('menu').style.display = 'none';
+    document.getElementById('sobre').style.display = 'flex';
   });
 
   document.getElementById('show-instructions').addEventListener('click', function() {
@@ -21,9 +28,9 @@ document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('instrucoes').style.display = 'flex';
   });
 
-  document.getElementById('show-about').addEventListener('click', function() {
+  document.getElementById('start-game').addEventListener('click', function() {
     document.getElementById('menu').style.display = 'none';
-    document.getElementById('sobre').style.display = 'flex';
+    document.getElementById('jogos').style.display = 'flex';
   });
 
   document.getElementById('back-to-menu-instrucoes').addEventListener('click', function() {
@@ -36,9 +43,9 @@ document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('menu').style.display = 'flex';
   });
 
-  document.getElementById('start-game').addEventListener('click', function() {
-    document.getElementById('menu').style.display = 'none';
-    // Iniciar o jogo - adicione aqui o código para iniciar o jogo
+  document.getElementById('back-to-menu-jogos').addEventListener('click', function() {
+    document.getElementById('jogos').style.display = 'none';
+    document.getElementById('menu').style.display = 'flex';
   });
 
   // Criar efeito de neve
