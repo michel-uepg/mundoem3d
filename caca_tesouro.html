@@ -83,7 +83,8 @@
       const word = words[currentWordIndex];
       guessedLetters = Array(word.english.length).fill("_");
       hiddenWordElement.setAttribute('value', guessedLetters.join(" "));
-      portugueseWordElement.setAttribute('value', `Traduza: ${word.portuguese}`);
+      portugueseWordElement.setAttribute('value', `Traduza: ${word.portuguese}
+        Procure as esferas em azul com suas letras espalhadas na floresta! Boa sorte!`);
       
       // Remover letras existentes do grid
       const letterGrid = document.querySelector('#letter-grid');
