@@ -20,27 +20,27 @@
     <!-- Environment: Forest -->
     <a-entity environment="preset: forest; groundColor: #445; grid: cross"></a-entity>
 
-    <!-- Marcador de Início -->
+    <!-- Start Marker (Red Tower) -->
     <a-entity id="start-marker" position="0 1 0">
-      <a-cylinder height="15" radius="0.5" color="red"></a-cylinder>
-      <a-text value="Start Here" color="#FFF" position="0 8 0" align="center"></a-text>
+      <a-cylinder height="30" radius="1" color="red"></a-cylinder>
+      <a-text value="Start Here" color="#FFF" position="0 15 0" align="center"></a-text>
     </a-entity>
 
     <!-- Instruction Card -->
     <a-entity id="instruction-card" position="0 2 -3">
       <a-plane color="#000" width="4" height="3" material="side: double">
         <a-text value="Bem-vindo ao Caca ao Tesouro do Mundo em 3D da UEPG!" position="0 1 0" align="center" color="#FFF" width="3.5"></a-text>
-        <a-text value="Voce tem 10 minutos para encontrar as letras certas espalhadas pelo Grid em 3D." position="0 0.5 0" align="center" color="#FFF" width="3.5"></a-text>
+        <a-text value="Voce tem 10 minutos para encontrar as letras certas espalhadas pela floresta." position="0 0.5 0" align="center" color="#FFF" width="3.5"></a-text>
         <a-text value="Use o cursor vermelho para selecionar as letras." position="0 0 0" align="center" color="#FFF" width="3.5"></a-text>
         <a-text value="Pressione Enter para comecar" position="0 -0.5 0" align="center" color="#FFF" width="3.5"></a-text>
       </a-plane>
     </a-entity>
 
     <!-- Timer Text (Always Visible) -->
-    <a-text id="timer" value="Time: 600" color="#FFF" position="0 4 -4" width="6" visible="true"></a-text>
+    <a-text id="timer" value="Time: 600" color="#FFF" position="0 5 -4" width="6" visible="true"></a-text>
 
     <!-- Score Text -->
-    <a-text id="score" value="Score: 0" color="#FFF" position="2 4 -4" width="6" visible="true"></a-text>
+    <a-text id="score" value="Score: 0" color="#FFF" position="2 5 -4" width="6" visible="true"></a-text>
 
     <!-- Portuguese Word to Translate -->
     <a-text id="portuguese-word" value="" color="#FFF" position="0 2.5 -3" width="6" visible="false"></a-text>
@@ -94,7 +94,7 @@
 
       // Adicionar letras da palavra em posições aleatórias no grid 3D
       const positions = [];
-      const gridSize = 144; // Distância reduzida entre as letras
+      const gridSize = 96; // Distância entre as letras reduzida para 3 vezes menos
       for (let i = 0; i < word.english.length; i++) {
           let position;
           do {
@@ -124,7 +124,7 @@
   // Função para carregar a próxima palavra
   function loadWord() {
       if (currentWordIndex >= words.length) {
-          alert(`Parabens! Voce completou o jogo com ${score} pontos.`);
+          alert(`Parabéns! Você completou o jogo com ${score} pontos.`);
           clearInterval(countdown); // Parar o timer quando o jogo acabar
           return;
       }
@@ -187,7 +187,7 @@
 
           if (guessedLetters.join("") === word) {
               currentWordIndex++;
-              alert('Correto! Proxima palavra...');
+              alert('Correto! Próxima palavra...');
               setTimeout(() => {
                   loadWord();
               }, 1000);
